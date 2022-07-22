@@ -1007,6 +1007,51 @@ def dashboard(request, user_id=None, user_slug=None):
 def archived_casebooks(request):
     return render(request, "archived_casebooks.html", {"user": request.user})
 
+@no_perms_test
+def h2o_library(request):
+    """
+    H2O-library Page
+    """
+        # read query parameters
+    category = request.GET.get("type", "")
+    if category not in internal_search_categories:
+        category = "casebook"
+    try:
+        page = int(request.GET.get("page"))
+    except (TypeError, ValueError):
+        page = 1
+    query = request.GET.get("q")
+
+    # else query postgres:
+    filters = {}
+    author = request.GET.get("author")
+    school = request.GET.get("school")
+    if author:
+        filters["attribution"] = author
+    if school:
+        filters["affiliation"] = school
+
+    results, counts, facets = SearchIndex.search(
+        category,
+        page=page,
+        query=query,
+        filters=filters,
+        facet_fields=["attribution", "affiliation"],
+        order_by=request.GET.get("sort"),
+    )
+    results.from_capapi = False
+    return render(
+        request,
+        "h2o_library.html",
+        {
+            "results": results,
+            "counts": counts,
+            "facets": facets,
+            "category": category,
+        },
+    )
+
+
 
 @no_perms_test
 def sign_up(request):

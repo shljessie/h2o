@@ -87,6 +87,8 @@ urlpatterns = format_suffix_patterns(drf_urlpatterns) + [
         no_perms_test(views.pretty_url_dispatch),
         name="pretty_section",
     ),
+    #h2o_library
+    path("h2o_library", views.h2o_library, name="h2o_library"),
     # search
     path("search/sources/", views.search_sources, name="search_sources"),
     path("search/<int:source>/", views.search_using, name="search_using"),
