@@ -1910,6 +1910,19 @@ class TrackedCloneable(models.Model):
         """
         return type(self).objects.filter(provenance__contains=[self.id])
 
+    def version_tree__new_descendants(self):
+        """
+        Return all descendants of this node expect itself.
+        (Used to track the provenance of casebooks; not used to describe the
+        contents of a given casebook.)
+
+        >>> root, c_1, c_2, c_1_1, c_1_2 = getfixture('casebook_tree')
+        >>> assert set(root.version_tree__descendants()) == {c_1, c_2, c_1_1, c_1_2}
+        >>> assert set(c_1.version_tree__descendants()) == {c_1_1, c_1_2}
+        >>> assert set(c_2.version_tree__descendants()) == set()
+        """
+        return type(self).objects.filter(title__contains=[self.title])
+
     def version_tree__root(self):
         """
         Return root node for this node, or None if no ancestors.
