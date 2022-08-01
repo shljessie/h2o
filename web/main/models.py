@@ -1920,6 +1920,9 @@ class TrackedCloneable(models.Model):
         >>> assert set(root.version_tree__descendants()) == {c_1, c_2, c_1_1, c_1_2}
         >>> assert set(c_1.version_tree__descendants()) == {c_1_1, c_1_2}
         >>> assert set(c_2.version_tree__descendants()) == set()
+
+        1. how to filter out repeating titles
+        2. how to filter out self title
         """
         return type(self).objects.filter(title__contains=[self.title])
 
