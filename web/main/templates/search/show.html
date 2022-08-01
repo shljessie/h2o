@@ -25,7 +25,10 @@
       {% if counts %}
         <div class="results-container">
           <div class="type-tabs">
-
+            <!-- 1. show author tab
+                2. if repeating title, push to back 
+              3. fix sort by date title,relevance
+            4. fix pagination -->
             <div class="type-tab {% if category == 'casebook' %}active{% endif %}" {% if category == 'casebook' %}aria-current="location"{% endif %}>
               <a href="?{% current_query_string type="casebooks" page=1 %}" class="wrapper">
                 Casebooks ({{ counts.casebook|default:"0" }})
