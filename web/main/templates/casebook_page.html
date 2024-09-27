@@ -27,6 +27,14 @@
             </div>
         {% endif %}
         <div class="casebook-inner">
+                {{casebook.version_tree__new_descendants}}
+                {% for clone in casebook.version_tree__descendants %}
+                <!-- {{clone}} -->
+                {% if 'Amendment' in 'clone' %}
+                    {{clone }}
+                {% endif %}
+                {% endfor %}
+            
             <div class="top-strip"></div>
             <header class="casebook-header">
                 <div class="casebook-title">
